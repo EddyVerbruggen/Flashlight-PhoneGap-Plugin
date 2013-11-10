@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="nl.x-services.plugins.flashlight"
+        version="1.0">
+
+  <name>Flashlight</name>
+
+  <description>
+    This plugin allows you switch the flaslight / torch of your device on or off.
+  </description>
+
+  <license>MIT</license>
+
+  <engines>
+    <engine name="cordova" version=">=3.0.0"/>
+  </engines>
+
+  <asset src="www/Flashlight.js" target="js/plugins/Flashlight.js"/>
+
+  <!-- ios -->
+  <platform name="ios">
+
+    <config-file target="config.xml" parent="/*">
+      <feature name="Flashlight">
+        <param name="ios-package" value="Flashlight"/>
+      </feature>
+    </config-file>
+
+    <header-file src="src/ios/Flashlight.h"/>
+    <source-file src="src/ios/Flashlight.m"/>
+  </platform>
+
+  <!-- android -->
+  <platform name="android">
+
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="Flashlight">
+        <param name="android-package" value="nl.xservices.plugins.Flashlight" />
+      </feature>
+    </config-file>
+
+    <source-file src="src/android/nl/xservices/plugins/Flashlight.java" target-dir="src/nl/xservices/plugins"/>
+  </platform>
+
+</plugin>
