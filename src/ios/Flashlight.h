@@ -1,6 +1,6 @@
 #import <Cordova/CDV.h>
 
-@interface SocialSharing : CDVPlugin
+@interface Flashlight : CDVPlugin
 
 - (void)available:(CDVInvokedUrlCommand*)command;
 - (void)switchOn:(CDVInvokedUrlCommand*)command;

@@ -1,7 +1,8 @@
-#import "SocialSharing.h"
+#import "Flashlight.h"
+#import <AVFoundation/AVFoundation.h>
 #import <Cordova/CDV.h>
 
-@implementation SocialSharing
+@implementation Flashlight
 
 - (void)available:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[self deviceHasFlashlight]];
@@ -11,6 +12,7 @@
 
 - (void)switchOn:(CDVInvokedUrlCommand*)command {
     if ([self deviceHasFlashlight]) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
         [device setTorchMode:AVCaptureTorchModeOn];
         [device setFlashMode:AVCaptureFlashModeOn];
@@ -20,6 +22,7 @@
 
 - (void)switchOff:(CDVInvokedUrlCommand*)command {
     if ([self deviceHasFlashlight]) {
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
         [device setTorchMode:AVCaptureTorchModeOff];
         [device setFlashMode:AVCaptureFlashModeOff];
