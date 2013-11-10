@@ -16,7 +16,7 @@ public class Flashlight extends CordovaPlugin {
   private static final String ACTION_SWITCH_OFF = "switchOff";
 
   private Camera mCamera;
-  private Camera.Parameters mParameters;
+//  private Camera.Parameters mParameters;
 
   public Flashlight() {
     mCamera = Camera.open();
@@ -32,7 +32,7 @@ public class Flashlight extends CordovaPlugin {
       toggleTorch(false, callbackContext);
       return true;
     } else if (action.equals(ACTION_AVAILABLE)) {
-      callbackContext.success(""+this.isCapable());
+      callbackContext.success(isCapable() ? 1 : 0);
       return true;
     } else {
       callbackContext.error("flashlight." + action + " is not a supported function.");
@@ -41,16 +41,17 @@ public class Flashlight extends CordovaPlugin {
   }
 
   protected boolean isCapable() {
-    final List<String> flashModes = mParameters.getSupportedFlashModes();
-    return flashModes != null && flashModes.contains(Camera.Parameters.FLASH_MODE_TORCH);
+    return mCamera != null &&
+        mCamera.getParameters().getSupportedFlashModes() != null &&
+        mCamera.getParameters().getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_TORCH);
   }
 
   protected void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
-    mParameters = mCamera.getParameters();
+//    mParameters = mCamera.getParameters();
     if (isCapable()) {
-      mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
+      mCamera.getParameters().setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
       // TODO test without this line
-      mCamera.setParameters(mParameters);
+//      mCamera.setParameters(mParameters);
       callbackContext.success();
     } else {
       callbackContext.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
