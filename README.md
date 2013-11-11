@@ -41,7 +41,7 @@ Then reference `Flashlight.js` in `index.html`, after `cordova.js`/`phonegap.js`
 ```xml
 <!-- for iOS -->
 <feature name="Flashlight">
-	<param name="ios-package" value="Flashlight" />
+  <param name="ios-package" value="Flashlight" />
 </feature>
 ```
 ```xml
@@ -78,7 +78,7 @@ You can implement the plugin with these simple steps.
 ```
 or to use this exact version:
 ```xml
-<gap:plugin name="nl.x-services.plugins.slashlight" version="1.0" />
+<gap:plugin name="nl.x-services.plugins.flashlight" version="1.0" />
 ```
 
 2\. Reference the JavaScript code in your `index.html`:
