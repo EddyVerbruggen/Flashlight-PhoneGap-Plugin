@@ -51,12 +51,17 @@ Then reference `Flashlight.js` in `index.html`, after `cordova.js`/`phonegap.js`
 </feature>
 ```
 
-2\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
+2\. For Android, add the following xml to your `AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.CAMERA"/>
+```
+
+3\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
 ```html
 <script type="text/javascript" src="js/plugins/Flashlight.js"></script>
 ```
 
-3\. Download the source files for iOS and/or Android and copy them to your project.
+4\. Download the source files for iOS and/or Android and copy them to your project.
 
 iOS: Copy `Flashlight.h` and `Flashlight.h` to `platforms/ios/<ProjectName>/Plugins`
 
