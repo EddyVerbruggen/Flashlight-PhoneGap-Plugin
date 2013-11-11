@@ -101,6 +101,11 @@ window.plugins.flashlight.available(function(isAvailable) {
 });
 ```
 
+As an alternative to switchOn and switchOff, you can use the toggle function
+```javascript
+window.plugins.flashlight.toggle(); // success/error callbacks may be passed as params
+```
+
 ## 4. CREDITS ##
 * This plugin was enhanced for Plugman / PhoneGap Build by [Eddy Verbruggen](http://www.x-services.nl).
 * The Android code was inspired by the [PhoneGap Torch plugin](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/Torch)

@@ -16,7 +16,7 @@ public class Flashlight extends CordovaPlugin {
   private static final String ACTION_SWITCH_OFF = "switchOff";
 
   private Camera mCamera;
-//  private Camera.Parameters mParameters;
+  private Camera.Parameters mParameters;
 
   public Flashlight() {
     mCamera = Camera.open();
@@ -47,11 +47,10 @@ public class Flashlight extends CordovaPlugin {
   }
 
   protected void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
-//    mParameters = mCamera.getParameters();
+    mParameters = mCamera.getParameters();
     if (isCapable()) {
-      mCamera.getParameters().setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
-      // TODO test without this line
-//      mCamera.setParameters(mParameters);
+      mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
+      mCamera.setParameters(mParameters);
       callbackContext.success();
     } else {
       callbackContext.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
