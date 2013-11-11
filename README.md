@@ -108,7 +108,7 @@ window.plugins.flashlight.available(function(isAvailable) {
 
 As an alternative to switchOn and switchOff, you can use the toggle function
 ```javascript
-window.plugins.flashlight.toggle(); // success/error callbacks may be passed as params
+window.plugins.flashlight.toggle(); // success/error callbacks may be passed
 ```
 
 ## 4. CREDITS ##
