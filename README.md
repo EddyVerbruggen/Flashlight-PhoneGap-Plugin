@@ -78,7 +78,7 @@ You can implement the plugin with these simple steps.
 ```
 or to use this exact version:
 ```xml
-<gap:plugin name="nl.x-services.plugins.flashlight" version="1.0" />
+<gap:plugin name="nl.x-services.plugins.flashlight" version="1.1" />
 ```
 
 2\. Reference the JavaScript code in your `index.html`:
@@ -111,9 +111,24 @@ As an alternative to `switchOn` and `switchOff`, you can use the `toggle` functi
 window.plugins.flashlight.toggle(); // success/error callbacks may be passed
 ```
 
+A hint for `Android developers`: you'll want to make sure the torch is switched off when the app is exited via the backbutton.
+Otherwise, the camera may be locked so it can't be used by other apps:
+```javascript
+document.addEventListener("backbutton", function() {
+  // pass exitApp as callbacks to the switchOff method
+  window.plugins.flashlight.switchOff(exitApp, exitApp);
+}, false);
+
+function exitApp() {
+  navigator.app.exitApp();
+}
+```
+
 ## 4. CREDITS ##
 * This plugin was streamlined and enhanced for Plugman / PhoneGap Build by [Eddy Verbruggen](http://www.x-services.nl).
 * The Android code was inspired by the [PhoneGap Torch plugin](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/Torch).
+* The Android code was inspired by the [PhoneGap Torch plugin](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/Torch).
+* Thanks to [HuaHub](https://github.com/HuaHub) for [making me fix a camera lock issue on Android](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/issues/3).
 * The iOS code was inspired by [Tom Schreck](https://github.com/tomschreck/iOS-Torch-Plugin).
 
 

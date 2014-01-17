@@ -7,8 +7,6 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.List;
-
 public class Flashlight extends CordovaPlugin {
 
   private static final String ACTION_AVAILABLE = "available";
@@ -16,20 +14,24 @@ public class Flashlight extends CordovaPlugin {
   private static final String ACTION_SWITCH_OFF = "switchOff";
 
   private Camera mCamera;
-  private Camera.Parameters mParameters;
-
-  public Flashlight() {
-    mCamera = Camera.open();
-  }
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     Log.d("Flashlight", "Plugin Called: " + action);
     if (action.equals(ACTION_SWITCH_ON)) {
+      mCamera = Camera.open();
       toggleTorch(true, callbackContext);
       return true;
     } else if (action.equals(ACTION_SWITCH_OFF)) {
       toggleTorch(false, callbackContext);
+      // we need to release the camera, so other apps can use it
+      new Thread(new Runnable() {
+        public void run() {
+          mCamera.setPreviewCallback(null);
+          mCamera.stopPreview();
+          mCamera.release();
+        }
+      }).start();
       return true;
     } else if (action.equals(ACTION_AVAILABLE)) {
       callbackContext.success(isCapable() ? 1 : 0);
@@ -47,7 +49,7 @@ public class Flashlight extends CordovaPlugin {
   }
 
   protected void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
-    mParameters = mCamera.getParameters();
+    final Camera.Parameters mParameters = mCamera.getParameters();
     if (isCapable()) {
       mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
       mCamera.setParameters(mParameters);

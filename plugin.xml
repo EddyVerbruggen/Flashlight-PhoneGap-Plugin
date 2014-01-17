@@ -2,12 +2,12 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="nl.x-services.plugins.flashlight"
-        version="1.0">
+        version="1.1">
 
   <name>Flashlight</name>
 
   <description>
-    This plugin allows you switch the flaslight / torch of your device on or off.
+    This plugin allows you switch the flashlight / torch of your device on or off.
   </description>
 
   <license>MIT</license>
