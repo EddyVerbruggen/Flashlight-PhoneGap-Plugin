@@ -15,7 +15,7 @@ by [Eddy Verbruggen](http://www.x-services.nl) for iOS and Android, PhoneGap 3+
 
 This plugin allows you to switch the flashlight / torch of the device on and off.
 
-* Works on Android, probably as far back as version 2.1.
+* Works on Android, but likely not on 2.x devices.
 * Works on iOS 5.0+, maybe even lower.
 * Depends on capabilities of the device, so you can test it with an API call.
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
