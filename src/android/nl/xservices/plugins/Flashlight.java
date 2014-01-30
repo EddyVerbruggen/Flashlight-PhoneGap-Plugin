@@ -24,17 +24,12 @@ public class Flashlight extends CordovaPlugin {
       return true;
     } else if (action.equals(ACTION_SWITCH_OFF)) {
       toggleTorch(false, callbackContext);
-      // we need to release the camera, so other apps can use it
-      new Thread(new Runnable() {
-        public void run() {
-          mCamera.setPreviewCallback(null);
-          mCamera.stopPreview();
-          mCamera.release();
-        }
-      }).start();
+      releaseCamera();
       return true;
     } else if (action.equals(ACTION_AVAILABLE)) {
+      mCamera = Camera.open();
       callbackContext.success(isCapable() ? 1 : 0);
+      releaseCamera();
       return true;
     } else {
       callbackContext.error("flashlight." + action + " is not a supported function.");
@@ -42,13 +37,13 @@ public class Flashlight extends CordovaPlugin {
     }
   }
 
-  protected boolean isCapable() {
+  private boolean isCapable() {
     return mCamera != null &&
         mCamera.getParameters().getSupportedFlashModes() != null &&
         mCamera.getParameters().getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_TORCH);
   }
 
-  protected void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
+  private void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
     final Camera.Parameters mParameters = mCamera.getParameters();
     if (isCapable()) {
       mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
@@ -57,5 +52,16 @@ public class Flashlight extends CordovaPlugin {
     } else {
       callbackContext.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
     }
+  }
+
+  private void releaseCamera() {
+    // we need to release the camera, so other apps can use it
+    new Thread(new Runnable() {
+      public void run() {
+        mCamera.setPreviewCallback(null);
+        mCamera.stopPreview();
+        mCamera.release();
+      }
+    }).start();
   }
 }
