@@ -5,7 +5,7 @@
 @implementation Flashlight
 
 - (void)available:(CDVInvokedUrlCommand*)command {
-    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[self deviceHasFlashlight]];
+    CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:[self deviceHasFlashlight]];
     NSString *callbackId = command.callbackId;
     [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
 }
@@ -17,6 +17,11 @@
         [device setTorchMode:AVCaptureTorchModeOn];
         [device setFlashMode:AVCaptureFlashModeOn];
         [device unlockForConfiguration];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+    } else {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
+        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
     }
 }
 
@@ -27,10 +32,15 @@
         [device setTorchMode:AVCaptureTorchModeOff];
         [device setFlashMode:AVCaptureFlashModeOff];
         [device unlockForConfiguration];
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+    } else {
+        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
+        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
     }
 }
 
--(BOOL*)deviceHasFlashlight {
+-(BOOL)deviceHasFlashlight {
     if (NSClassFromString(@"AVCaptureDevice")) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         return [device hasTorch] && [device hasFlash];
