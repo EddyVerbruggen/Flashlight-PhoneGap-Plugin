@@ -48,6 +48,7 @@ public class Flashlight extends CordovaPlugin {
     if (isCapable()) {
       mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
       mCamera.setParameters(mParameters);
+      mCamera.startPreview();
       callbackContext.success();
     } else {
       callbackContext.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
