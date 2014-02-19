@@ -13,6 +13,7 @@ public class Flashlight extends CordovaPlugin {
   private static final String ACTION_SWITCH_ON = "switchOn";
   private static final String ACTION_SWITCH_OFF = "switchOff";
 
+  private static Boolean capable;
   private Camera mCamera;
 
   @Override
@@ -27,9 +28,12 @@ public class Flashlight extends CordovaPlugin {
       releaseCamera();
       return true;
     } else if (action.equals(ACTION_AVAILABLE)) {
-      mCamera = Camera.open();
-      callbackContext.success(isCapable() ? 1 : 0);
-      releaseCamera();
+      if (capable == null) {
+        mCamera = Camera.open();
+        capable = isCapable();
+        releaseCamera();
+      }
+      callbackContext.success(capable ? 1 : 0);
       return true;
     } else {
       callbackContext.error("flashlight." + action + " is not a supported function.");
