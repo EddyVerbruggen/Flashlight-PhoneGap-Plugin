@@ -116,7 +116,7 @@ Otherwise, the camera may be locked so it can't be used by other apps:
 ```javascript
 document.addEventListener("backbutton", function() {
   // pass exitApp as callbacks to the switchOff method
-  window.plugins.flashlight.switchOff(exitApp, exitApp);
+  window.plugins.flashlight.switchOff(exitApp(), exitApp());
 }, false);
 
 function exitApp() {
