@@ -1,6 +1,6 @@
 # PhoneGap Flashlight / Torch plugin
 
-by [Eddy Verbruggen](http://www.x-services.nl) for iOS and Android, PhoneGap 3+
+by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and (since v2.0.0)
 
 1. [Description](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#2-installation)
@@ -17,6 +17,7 @@ This plugin allows you to switch the flashlight / torch of the device on and off
 
 * Works on Android, but likely not on 2.x devices.
 * Works on iOS 5.0+, maybe even lower.
+* Works on Windows Phone 8 since v2.0.0.
 * Depends on capabilities of the device, so you can test it with an API call.
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
 * Pending review at [PhoneGap Build](https://build.phonegap.com/plugins).
@@ -50,42 +51,49 @@ Then reference `Flashlight.js` in `index.html`, after `cordova.js`/`phonegap.js`
   <param name="android-package" value="nl.xservices.plugins.Flashlight" />
 </feature>
 ```
+```xml
+<!-- for WP8 -->
+<feature name="Flashlight">
+  <param name="wp-package" value="Flashlight" />
+</feature>
+```
 
 2\. For Android, add the following xml to your `AndroidManifest.xml`:
 ```xml
 <uses-permission android:name="android.permission.CAMERA"/>
 ```
 
-3\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
+3\. For WP8, add the following xml to your `Properties/WMAppManifest.xml`:
+```xml
+<Capability Name="ID_CAP_ISV_CAMERA"/>
+```
+
+4\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
 ```html
 <script type="text/javascript" src="js/plugins/Flashlight.js"></script>
 ```
 
-4\. Download the source files for iOS and/or Android and copy them to your project.
+5\. Download the source files and copy them to your project.
 
 iOS: Copy `Flashlight.h` and `Flashlight.h` to `platforms/ios/<ProjectName>/Plugins`
 
 Android: Copy `Flashlight.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
 
+WP8: Copy `Flashlight.cs` to `platforms/wp8/Plugins/nl.x-services.plugins.flashlight` (create the folders)
+
 ### PhoneGap Build
 
 Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
-You can implement the plugin with these simple steps.
-
-1\. Add the following xml to your `config.xml` to always use the latest version of this plugin:
+Just add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
 <gap:plugin name="nl.x-services.plugins.flashlight" />
 ```
 or to use this exact version:
 ```xml
-<gap:plugin name="nl.x-services.plugins.flashlight" version="1.4" />
+<gap:plugin name="nl.x-services.plugins.flashlight" version="2.0.0" />
 ```
 
-2\. Reference the JavaScript code in your `index.html`:
-```html
-<!-- below <script src="phonegap.js"></script> -->
-<script src="js/plugins/Flashlight.js"></script>
-```
+Flashlight.js is brought in automatically (since v2.0.0). There is no need to change or add anything in your html.
 
 ## 3. Usage
 ```javascript
