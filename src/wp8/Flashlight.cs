@@ -1,47 +1,63 @@
 using Microsoft.Phone.Tasks;
 
-using Microsoft.Devices.PhotoCamera;
-
 using WPCordovaClassLib.Cordova;
 using WPCordovaClassLib.Cordova.Commands;
 using WPCordovaClassLib.Cordova.JSON;
+using Windows.Phone.Media.Capture;
+
+using System;
+
+using Windows.Devices;
+using Windows.Devices.Input;
+
+using Microsoft.Devices;
 
 namespace WPCordovaClassLib.Cordova.Commands
 {
     public class Flashlight : BaseCommand
     {
 
+        protected AudioVideoCaptureDevice Device { get; set; }
+
         public void available(string jsonArgs)
         {
             DispatchCommandResult(new PluginResult(PluginResult.Status.OK, hasFlashlight()));
         }
 
-        public void switchOn(string jsonArgs)
+        public async void switchOn(string jsonArgs)
         {
             if (hasFlashlight()) {
-                var _device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back, AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back).First());
-                _device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.On);
+                if (this.Device == null)
+                {
+                    this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
+                        AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
+                }
+                this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.On);
                 DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
             } else {
-                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()");
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()"));
             }
         }
 
-        public void switchOff(string jsonArgs)
+        public async void switchOff(string jsonArgs)
         {
             if (hasFlashlight()) {
-                var _device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back, AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back).First());
-                _device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.Off);
+                if (this.Device == null)
+                {
+                    this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
+                        AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
+                }
+                this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.Off);
                 DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
             } else {
-                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()");
+                DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()"));
             }
         }
 
         private bool hasFlashlight()
         {
-            bool supported = PhotoCamera.IsFlashModeSupported;
-            return supported;
+            var cam = new Microsoft.Devices.PhotoCamera(CameraType.Primary);
+            return cam.IsFlashModeSupported(FlashMode.On);
         }
 
     }
