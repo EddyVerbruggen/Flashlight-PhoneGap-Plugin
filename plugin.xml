@@ -59,6 +59,7 @@
 
     <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
       <Capability Name="ID_CAP_ISV_CAMERA"/>
+      <Capability Name="ID_CAP_MICROPHONE"/>
     </config-file>
 
     <source-file src="src/wp8/Flashlight.cs" />
