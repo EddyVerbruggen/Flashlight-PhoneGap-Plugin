@@ -1,6 +1,6 @@
 # PhoneGap Flashlight / Torch plugin
 
-by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and (since v2.0.0)
+by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8 (since v2.0.0)
 
 1. [Description](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#2-installation)
