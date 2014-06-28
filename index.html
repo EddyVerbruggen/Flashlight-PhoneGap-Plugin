@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Flashlight, a Cordova plugin by EddyVerbruggen</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Flashlight, a Cordova plugin</h1>
+        <h2>Toggle the torch / flashlight of your device from Javascript</h2>
+        <a href="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p>by <a href="http://www.x-services.nl">Eddy Verbruggen</a> for iOS, Android and WP8</p>
+
+<ol>
+<li><a href="#1-description">Description</a></li>
+<li>
+<a href="#2-installation">Installation</a>
+
+<ol>
+<li><a href="#automatically-cli--plugman">Automatically (CLI / Plugman)</a></li>
+<li><a href="#manually">Manually</a></li>
+<li><a href="#phonegap-build">PhoneGap Build</a></li>
+</ol>
+</li>
+<li><a href="#3-usage">Usage</a></li>
+<li><a href="#4-credits">Credits</a></li>
+<li><a href="#5-license">License</a></li>
+</ol><h2>
+<a name="1-description" class="anchor" href="#1-description"><span class="octicon octicon-link"></span></a>1. Description</h2>
+
+<p>This plugin allows you to switch the flashlight / torch of the device on and off.</p>
+
+<ul>
+<li>Works on Android, but likely not on 2.x devices.</li>
+<li>Works on iOS 5.0+, maybe even lower.</li>
+<li>Works on Windows Phone 8 since v2.0.0.</li>
+<li>Depends on capabilities of the device, so you can test it with an API call.</li>
+<li>Compatible with <a href="https://github.com/apache/cordova-plugman">Cordova Plugman</a>.</li>
+<li>Pending review at <a href="https://build.phonegap.com/plugins">PhoneGap Build</a>.</li>
+</ul><h2>
+<a name="2-installation" class="anchor" href="#2-installation"><span class="octicon octicon-link"></span></a>2. Installation</h2>
+
+<h3>
+<a name="automatically-cli--plugman" class="anchor" href="#automatically-cli--plugman"><span class="octicon octicon-link"></span></a>Automatically (CLI / Plugman)</h3>
+
+<p>Flashlight is compatible with <a href="https://github.com/apache/cordova-plugman">Cordova Plugman</a>, compatible with <a href="http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features">PhoneGap 3.0 CLI</a>, here's how it works with the CLI:</p>
+
+<pre><code>$ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git
+$ cordova prepare
+</code></pre>
+
+<p>Then reference <code>Flashlight.js</code> in <code>index.html</code>, after <code>cordova.js</code>/<code>phonegap.js</code>. Mind the path:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"js/plugins/Flashlight.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<h3>
+<a name="manually" class="anchor" href="#manually"><span class="octicon octicon-link"></span></a>Manually</h3>
+
+<p>1. Add the following xml to your <code>config.xml</code> in the root directory of your <code>www</code> folder:</p>
+
+<div class="highlight highlight-xml"><pre><span class="c">&lt;!-- for iOS --&gt;</span>
+<span class="nt">&lt;feature</span> <span class="na">name=</span><span class="s">"Flashlight"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">"ios-package"</span> <span class="na">value=</span><span class="s">"Flashlight"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/feature&gt;</span>
+</pre></div>
+
+<div class="highlight highlight-xml"><pre><span class="c">&lt;!-- for Android --&gt;</span>
+<span class="nt">&lt;feature</span> <span class="na">name=</span><span class="s">"Flashlight"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">"android-package"</span> <span class="na">value=</span><span class="s">"nl.xservices.plugins.Flashlight"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/feature&gt;</span>
+</pre></div>
+
+<div class="highlight highlight-xml"><pre><span class="c">&lt;!-- for WP8 --&gt;</span>
+<span class="nt">&lt;feature</span> <span class="na">name=</span><span class="s">"Flashlight"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">"wp-package"</span> <span class="na">value=</span><span class="s">"Flashlight"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/feature&gt;</span>
+</pre></div>
+
+<p>2. For Android, add the following xml to your <code>AndroidManifest.xml</code>:</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.CAMERA"</span><span class="nt">/&gt;</span>
+</pre></div>
+
+<p>3. For WP8, add the following xml to your <code>Properties/WMAppManifest.xml</code>:</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;Capability</span> <span class="na">Name=</span><span class="s">"ID_CAP_ISV_CAMERA"</span><span class="nt">/&gt;</span>
+<span class="c">&lt;!-- you can try without this one, but I found I needed it on my Nokia Lumia 925, so it's enabled when using auto-install --&gt;</span>
+<span class="nt">&lt;Capability</span> <span class="na">Name=</span><span class="s">"ID_CAP_MICROPHONE"</span><span class="nt">/&gt;</span>
+</pre></div>
+
+<p>4. Grab a copy of Flashlight.js, add it to your project and reference it in <code>index.html</code>:</p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">src=</span><span class="s">"js/plugins/Flashlight.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</pre></div>
+
+<p>5. Download the source files and copy them to your project.</p>
+
+<p>iOS: Copy <code>Flashlight.h</code> and <code>Flashlight.h</code> to <code>platforms/ios/&lt;ProjectName&gt;/Plugins</code></p>
+
+<p>Android: Copy <code>Flashlight.java</code> to <code>platforms/android/src/nl/xservices/plugins</code> (create the folders)</p>
+
+<p>WP8: Copy <code>Flashlight.cs</code> to <code>platforms/wp8/Plugins/nl.x-services.plugins.flashlight</code> (create the folders)</p>
+
+<h3>
+<a name="phonegap-build" class="anchor" href="#phonegap-build"><span class="octicon octicon-link"></span></a>PhoneGap Build</h3>
+
+<p>Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
+Just add the following xml to your <code>config.xml</code> to always use the latest version of this plugin:</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;gap:plugin</span> <span class="na">name=</span><span class="s">"nl.x-services.plugins.flashlight"</span> <span class="nt">/&gt;</span>
+</pre></div>
+
+<p>or to use this exact version:</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;gap:plugin</span> <span class="na">name=</span><span class="s">"nl.x-services.plugins.flashlight"</span> <span class="na">version=</span><span class="s">"2.0.0"</span> <span class="nt">/&gt;</span>
+</pre></div>
+
+<p>Flashlight.js is brought in automatically (since v2.0.0). There is no need to change or add anything in your html.</p>
+
+<h2>
+<a name="3-usage" class="anchor" href="#3-usage"><span class="octicon octicon-link"></span></a>3. Usage</h2>
+
+<div class="highlight highlight-javascript"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">flashlight</span><span class="p">.</span><span class="nx">available</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">isAvailable</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">isAvailable</span><span class="p">)</span> <span class="p">{</span>
+
+    <span class="c1">// switch on</span>
+    <span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">flashlight</span><span class="p">.</span><span class="nx">switchOn</span><span class="p">();</span> <span class="c1">// success/error callbacks may be passed</span>
+
+    <span class="c1">// switch off after 3 seconds</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+      <span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">flashlight</span><span class="p">.</span><span class="nx">switchOff</span><span class="p">();</span> <span class="c1">// success/error callbacks may be passed</span>
+    <span class="p">},</span> <span class="mi">3000</span><span class="p">);</span>
+
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="s2">"Flashlight not available on this device"</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>As an alternative to <code>switchOn</code> and <code>switchOff</code>, you can use the <code>toggle</code> function</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">flashlight</span><span class="p">.</span><span class="nx">toggle</span><span class="p">();</span> <span class="c1">// success/error callbacks may be passed</span>
+</pre></div>
+
+<p>A hint for <code>Android developers</code>: you'll want to make sure the torch is switched off when the app is exited via the backbutton.
+Otherwise, the camera may be locked so it can't be used by other apps:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">"backbutton"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// pass exitApp as callbacks to the switchOff method</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">plugins</span><span class="p">.</span><span class="nx">flashlight</span><span class="p">.</span><span class="nx">switchOff</span><span class="p">(</span><span class="nx">exitApp</span><span class="p">,</span> <span class="nx">exitApp</span><span class="p">);</span>
+<span class="p">},</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">exitApp</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">navigator</span><span class="p">.</span><span class="nx">app</span><span class="p">.</span><span class="nx">exitApp</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="4-credits" class="anchor" href="#4-credits"><span class="octicon octicon-link"></span></a>4. Credits</h2>
+
+<ul>
+<li>This plugin was streamlined and enhanced for Plugman / PhoneGap Build by <a href="http://www.x-services.nl">Eddy Verbruggen</a>.</li>
+<li>The Android code was inspired by the <a href="https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/Torch">PhoneGap Torch plugin</a>.</li>
+<li>Thanks to <a href="https://github.com/HuaHub">HuaHub</a> for <a href="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/issues/3">making me fix a camera lock issue on Android</a>.</li>
+<li>The iOS code was inspired by <a href="https://github.com/tomschreck/iOS-Torch-Plugin">Tom Schreck</a>.</li>
+</ul><h2>
+<a name="5-license" class="anchor" href="#5-license"><span class="octicon octicon-link"></span></a>5. License</h2>
+
+<p><a href="http://www.opensource.org/licenses/mit-license.html">The MIT License (MIT)</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin"></a> is maintained by <a href="https://github.com/EddyVerbruggen">EddyVerbruggen</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
