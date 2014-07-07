@@ -2,6 +2,7 @@ package nl.xservices.plugins;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.os.Build;
 import android.util.Log;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -29,8 +30,10 @@ public class Flashlight extends CordovaPlugin {
           Thread.sleep(10);
         }
         mCamera = Camera.open();
-        // required for (at least) the Nexus 5
-        mCamera.setPreviewTexture(new SurfaceTexture(0));
+        if (Build.VERSION.SDK_INT >= 11) { // honeycomb
+          // required for (at least) the Nexus 5
+          mCamera.setPreviewTexture(new SurfaceTexture(0));
+        }
         toggleTorch(true, callbackContext);
         return true;
       } else if (action.equals(ACTION_SWITCH_OFF)) {
