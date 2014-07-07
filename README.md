@@ -1,6 +1,6 @@
 # PhoneGap Flashlight / Torch plugin
 
-by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and (since v2.0.0)
+by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8 (since v2.0.0)
 
 1. [Description](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#2-installation)
@@ -66,6 +66,8 @@ Then reference `Flashlight.js` in `index.html`, after `cordova.js`/`phonegap.js`
 3\. For WP8, add the following xml to your `Properties/WMAppManifest.xml`:
 ```xml
 <Capability Name="ID_CAP_ISV_CAMERA"/>
+<!-- you can try without this one, but I found I needed it on my Nokia Lumia 925, so it's enabled when using auto-install -->
+<Capability Name="ID_CAP_MICROPHONE"/>
 ```
 
 4\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
