@@ -1,6 +1,6 @@
 # PhoneGap Flashlight / Torch plugin
 
-by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8 (since v2.0.0)
+by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8
 
 1. [Description](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#1-description)
 2. [Installation](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#2-installation)
@@ -17,7 +17,7 @@ This plugin allows you to switch the flashlight / torch of the device on and off
 
 * Works on Android 2.x and newer.
 * Works on iOS 5.0+, maybe even lower.
-* Works on Windows Phone 8 since v2.0.0.
+* Works on Windows Phone 8 (since v2.0.0).
 * Depends on capabilities of the device, so you can test it with an API call.
 * Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
 * Pending review at [PhoneGap Build](https://build.phonegap.com/plugins).

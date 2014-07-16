@@ -1,5 +1,7 @@
 package nl.xservices.plugins;
 
+import android.content.pm.FeatureInfo;
+import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Build;
@@ -8,13 +10,6 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import android.app.Activity;
-import android.content.pm.*;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaInterface;
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.PluginResult;
-
 
 public class Flashlight extends CordovaPlugin {
 
@@ -67,11 +62,10 @@ public class Flashlight extends CordovaPlugin {
 
   private boolean isCapable() {
     final PackageManager packageManager = this.cordova.getActivity().getPackageManager();
-    final FeatureInfo[] featureList = packageManager.getSystemAvailableFeatures();
-    for (FeatureInfo f : featureList) {
-        if(f.name.equals(PackageManager.FEATURE_CAMERA_FLASH)){
-          return true;
-        }
+    for (final FeatureInfo feature : packageManager.getSystemAvailableFeatures()) {
+      if (PackageManager.FEATURE_CAMERA_FLASH.equalsIgnoreCase(feature.name)) {
+        return true;
+      }
     }
     return false;
   }
