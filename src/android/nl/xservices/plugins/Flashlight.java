@@ -8,6 +8,13 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
+import android.app.Activity;
+import android.content.pm.*;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PluginResult;
+
 
 public class Flashlight extends CordovaPlugin {
 
@@ -59,9 +66,14 @@ public class Flashlight extends CordovaPlugin {
   }
 
   private boolean isCapable() {
-    return mCamera != null &&
-        mCamera.getParameters().getSupportedFlashModes() != null &&
-        mCamera.getParameters().getSupportedFlashModes().contains(Camera.Parameters.FLASH_MODE_TORCH);
+    final PackageManager packageManager = this.cordova.getActivity().getPackageManager();
+    final FeatureInfo[] featureList = packageManager.getSystemAvailableFeatures();
+    for (FeatureInfo f : featureList) {
+        if(f.name.equals(PackageManager.FEATURE_CAMERA_FLASH)){
+          return true;
+        }
+    }
+    return false;
   }
 
   private void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
