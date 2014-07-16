@@ -15,7 +15,7 @@ by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8 (since v
 
 This plugin allows you to switch the flashlight / torch of the device on and off.
 
-* Works on Android, but likely not on 2.x devices.
+* Works on Android 2.x and newer.
 * Works on iOS 5.0+, maybe even lower.
 * Works on Windows Phone 8 since v2.0.0.
 * Depends on capabilities of the device, so you can test it with an API call.
