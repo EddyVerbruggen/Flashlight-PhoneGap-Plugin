@@ -1,4 +1,5 @@
 using Microsoft.Phone.Tasks;
+using Microsoft.Phone.Shell;
 
 using WPCordovaClassLib.Cordova;
 using WPCordovaClassLib.Cordova.Commands;
@@ -32,7 +33,22 @@ namespace WPCordovaClassLib.Cordova.Commands
                     this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
                         AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
                 }
-                this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.On);
+                bool disposed = false;
+                try
+                {
+                    this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.On);
+                }
+                catch (ObjectDisposedException ignore)
+                {
+                    // may be thrown when the app is paused/resumed
+                    disposed = true;
+                }
+                if (disposed)
+                {
+                    this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
+                        AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
+                    this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.On);
+                }
                 DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
             } else {
                 DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()"));
@@ -47,7 +63,22 @@ namespace WPCordovaClassLib.Cordova.Commands
                     this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
                         AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
                 }
-                this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.Off);
+                bool disposed = false;
+                try
+                {
+                    this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.Off);
+                }
+                catch (ObjectDisposedException ignore)
+                {
+                    // may be thrown when the app is paused/resumed
+                    disposed = true;
+                }
+                if (disposed)
+                {
+                    this.Device = await AudioVideoCaptureDevice.OpenAsync(CameraSensorLocation.Back,
+                        AudioVideoCaptureDevice.GetAvailableCaptureResolutions(CameraSensorLocation.Back)[0]);
+                    this.Device.SetProperty(KnownCameraAudioVideoProperties.VideoTorchMode, VideoTorchMode.Off);
+                }
                 DispatchCommandResult(new PluginResult(PluginResult.Status.OK));
             } else {
                 DispatchCommandResult(new PluginResult(PluginResult.Status.ERROR, "Device is not capable of using the flashlight. Please test with flashlight.available()"));
@@ -60,5 +91,10 @@ namespace WPCordovaClassLib.Cordova.Commands
             return cam.IsFlashModeSupported(FlashMode.On);
         }
 
+
+        public override void OnResume(object sender, ActivatedEventArgs e)
+        {
+            this.Device = null;
+        }
     }
 }
