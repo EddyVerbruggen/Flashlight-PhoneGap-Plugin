@@ -6,38 +6,37 @@
 
 - (void)available:(CDVInvokedUrlCommand*)command {
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:[self deviceHasFlashlight]];
-    NSString *callbackId = command.callbackId;
-    [self writeJavascript:[pluginResult toSuccessCallbackString:callbackId]];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)switchOn:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult;
     if ([self deviceHasFlashlight]) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
         [device setTorchMode:AVCaptureTorchModeOn];
         [device setFlashMode:AVCaptureFlashModeOn];
         [device unlockForConfiguration];
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     } else {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
     }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 - (void)switchOff:(CDVInvokedUrlCommand*)command {
+    CDVPluginResult* pluginResult;
     if ([self deviceHasFlashlight]) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
         [device setTorchMode:AVCaptureTorchModeOff];
         [device setFlashMode:AVCaptureFlashModeOff];
         [device unlockForConfiguration];
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-        [self writeJavascript:[pluginResult toSuccessCallbackString:command.callbackId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     } else {
-        CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
-        [self writeJavascript:[pluginResult toErrorCallbackString:command.callbackId]];
+        pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Device is not capable of using the flashlight. Please test with flashlight.available()"];
     }
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
 -(BOOL)deviceHasFlashlight {
