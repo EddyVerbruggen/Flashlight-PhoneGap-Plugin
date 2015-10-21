@@ -9,7 +9,6 @@ by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8
 	2. [PhoneGap Build](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#phonegap-build)
 3. [Usage](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#3-usage)
 4. [Credits](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#4-credits)
-5. [License](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#5-license)
 
 ## 1. Description
 
@@ -24,78 +23,23 @@ This plugin allows you to switch the flashlight / torch of the device on and off
 
 ## 2. Installation
 
-### Automatically (CLI / Plugman)
-Flashlight is compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman), compatible with [PhoneGap 3.0 CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface_add_features), here's how it works with the CLI:
-
+Latest stable version from npm:
 ```
-$ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git
-$ cordova prepare
-```
-Then reference `Flashlight.js` in `index.html`, after `cordova.js`/`phonegap.js`. Mind the path:
-```html
-<script type="text/javascript" src="js/plugins/Flashlight.js"></script>
+$ cordova plugin add cordova-plugin-flashlight
 ```
 
-### Manually
-
-1\. Add the following xml to your `config.xml` in the root directory of your `www` folder:
-```xml
-<!-- for iOS -->
-<feature name="Flashlight">
-  <param name="ios-package" value="Flashlight" />
-</feature>
+Bleeding edge version from Github:
 ```
-```xml
-<!-- for Android -->
-<feature name="Flashlight">
-  <param name="android-package" value="nl.xservices.plugins.Flashlight" />
-</feature>
+$ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin
 ```
-```xml
-<!-- for WP8 -->
-<feature name="Flashlight">
-  <param name="wp-package" value="Flashlight" />
-</feature>
-```
-
-2\. For Android, add the following xml to your `AndroidManifest.xml`:
-```xml
-<uses-permission android:name="android.permission.CAMERA"/>
-```
-
-3\. For WP8, add the following xml to your `Properties/WMAppManifest.xml`:
-```xml
-<Capability Name="ID_CAP_ISV_CAMERA"/>
-<!-- you can try without this one, but I found I needed it on my Nokia Lumia 925, so it's enabled when using auto-install -->
-<Capability Name="ID_CAP_MICROPHONE"/>
-```
-
-4\. Grab a copy of Flashlight.js, add it to your project and reference it in `index.html`:
-```html
-<script type="text/javascript" src="js/plugins/Flashlight.js"></script>
-```
-
-5\. Download the source files and copy them to your project.
-
-iOS: Copy `Flashlight.h` and `Flashlight.h` to `platforms/ios/<ProjectName>/Plugins`
-
-Android: Copy `Flashlight.java` to `platforms/android/src/nl/xservices/plugins` (create the folders)
-
-WP8: Copy `Flashlight.cs` to `platforms/wp8/Plugins/nl.x-services.plugins.flashlight` (create the folders)
 
 ### PhoneGap Build
 
 Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
 Just add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
-<gap:plugin name="nl.x-services.plugins.flashlight" />
+<gap:plugin name="cordova-plugin-flashlight" source="npm />
 ```
-or to use this exact version:
-```xml
-<gap:plugin name="nl.x-services.plugins.flashlight" version="2.0.0" />
-```
-
-Flashlight.js is brought in automatically (since v2.0.0). There is no need to change or add anything in your html.
 
 ## 3. Usage
 ```javascript
@@ -139,26 +83,3 @@ function exitApp() {
 * The Android code was inspired by the [PhoneGap Torch plugin](https://github.com/phonegap/phonegap-plugins/tree/DEPRECATED/Android/Torch).
 * Thanks to [HuaHub](https://github.com/HuaHub) for [making me fix a camera lock issue on Android](https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/issues/3).
 * The iOS code was inspired by [Tom Schreck](https://github.com/tomschreck/iOS-Torch-Plugin).
-
-
-## 5. License
-
-[The MIT License (MIT)](http://www.opensource.org/licenses/mit-license.html)
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
