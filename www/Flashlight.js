@@ -27,6 +27,10 @@ Flashlight.prototype = {
     } else {
       this.switchOn(successCallback, errorCallback);
     }
+  },
+
+  isSwitchedOn: function () {
+    return this._isSwitchedOn;
   }
 };
 
