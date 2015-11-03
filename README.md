@@ -65,6 +65,11 @@ As an alternative to `switchOn` and `switchOff`, you can use the `toggle` functi
 window.plugins.flashlight.toggle(); // success/error callbacks may be passed
 ```
 
+To know if the flashlight is on or off you can call `isSwitchedOn` 
+```javascript
+window.plugins.flashlight.isSwitchedOn(); // returns true/false
+```
+
 A hint for `Android developers`: you'll want to make sure the torch is switched off when the app is exited via the backbutton.
 Otherwise, the camera may be locked so it can't be used by other apps:
 ```javascript
