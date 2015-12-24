@@ -38,7 +38,7 @@ $ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugi
 Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
 Just add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
-<gap:plugin name="cordova-plugin-flashlight" source="npm />
+<gap:plugin name="cordova-plugin-flashlight" source="npm" />
 ```
 
 ## 3. Usage
