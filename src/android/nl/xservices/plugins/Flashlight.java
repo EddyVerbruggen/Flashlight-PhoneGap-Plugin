@@ -1,10 +1,15 @@
 package nl.xservices.plugins;
 
 import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.FeatureInfo;
 import android.content.pm.PackageManager;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.util.Log;
 
@@ -16,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 public class Flashlight extends CordovaPlugin {
 
@@ -32,30 +38,42 @@ public class Flashlight extends CordovaPlugin {
   private CallbackContext callbackContext;
 
   @Override
-  public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
+  public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
     Log.d("Flashlight", "Plugin Called: " + action);
 
     try {
       if (action.equals(ACTION_SWITCH_ON)) {
         this.callbackContext = callbackContext;
 
-        // When switching on immediately after checking for isAvailable,
-        // the release method may still be running, so wait a bit.
-        while (releasing) {
-          Thread.sleep(10);
-        }
+        cordova.getThreadPool().execute(new Runnable() {
+          public void run() {
 
-        // android M permission
-        if (!hasPermisssion()) {
-          requestPermissions(PERMISSION_CALLBACK_CAMERA);
-        } else {
-          toggleTorch(true, callbackContext);
-        }
+            // When switching on immediately after checking for isAvailable,
+            // the release method may still be running, so wait a bit.
+            while (releasing) {
+              try {
+                Thread.sleep(10);
+              } catch (InterruptedException ignore) {
+              }
+            }
+
+            // android M permission
+            if (!hasPermisssion()) {
+              requestPermissions(PERMISSION_CALLBACK_CAMERA);
+            } else {
+              toggleTorch(true, callbackContext);
+            }
+          }
+        });
 
         return true;
       } else if (action.equals(ACTION_SWITCH_OFF)) {
-        toggleTorch(false, callbackContext);
-        releaseCamera();
+        cordova.getThreadPool().execute(new Runnable() {
+          public void run() {
+            toggleTorch(false, callbackContext);
+            releaseCamera();
+          }
+        });
         return true;
       } else if (action.equals(ACTION_AVAILABLE)) {
         callbackContext.success(isCapable() ? 1 : 0);
@@ -95,21 +113,50 @@ public class Flashlight extends CordovaPlugin {
       callbackContext.error(e.getMessage());
     }
   }
-
   @SuppressWarnings("deprecation")
-  private void doToggleTorch(boolean switchOn, CallbackContext callbackContext) throws IOException {
-    if (mCamera == null) {
-      mCamera = Camera.open();
-      if (Build.VERSION.SDK_INT >= 11) { // honeycomb
-        // required for (at least) the Nexus 5
-        mCamera.setPreviewTexture(new SurfaceTexture(0));
+  private void doToggleTorch(boolean switchOn, CallbackContext callbackContext) throws IOException, CameraAccessException {
+    if (Build.VERSION.SDK_INT >= 23) { // Android M has such an easy API! <3
+      doToggleTorchSdk23(switchOn, callbackContext);
+
+    } else {
+      if (mCamera == null) {
+        mCamera = Camera.open();
+        if (Build.VERSION.SDK_INT >= 11) { // honeycomb
+          // required for (at least) the Nexus 5
+          mCamera.setPreviewTexture(new SurfaceTexture(0));
+        }
+      }
+      final Camera.Parameters mParameters = mCamera.getParameters();
+      mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
+      mCamera.setParameters(mParameters);
+      mCamera.startPreview();
+      callbackContext.success();
+    }
+  }
+
+  @TargetApi(21)
+  private void doToggleTorchSdk23(boolean switchOn, CallbackContext callbackContext) throws IOException, CameraAccessException {
+    final CameraManager cameraManager = (CameraManager) cordova.getActivity().getSystemService(Context.CAMERA_SERVICE);
+    for (final String id : cameraManager.getCameraIdList()) {
+      // Turn on the flash if the camera has one (usually the one at index 0 has one)
+      final Boolean hasFlash = cameraManager.getCameraCharacteristics(id).get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+      if (Boolean.TRUE.equals(hasFlash)) {
+        setTorchMode(cameraManager, id, switchOn);
+        break;
       }
     }
-    final Camera.Parameters mParameters = mCamera.getParameters();
-    mParameters.setFlashMode(switchOn ? Camera.Parameters.FLASH_MODE_TORCH : Camera.Parameters.FLASH_MODE_OFF);
-    mCamera.setParameters(mParameters);
-    mCamera.startPreview();
-    callbackContext.success();
+  }
+
+  @TargetApi(23)
+  private void setTorchMode(CameraManager cameraManager, String id, boolean switchOn) throws CameraAccessException {
+    // since folks may not use SDK 23 to compile we'll use reflection as a temporary solution
+    try {
+      final Method setTorchMode = cameraManager.getClass().getMethod("setTorchMode", String.class, boolean.class);
+      setTorchMode.invoke(id, switchOn);
+      callbackContext.success();
+    } catch (ReflectiveOperationException e) {
+      callbackContext.error(e.getMessage());
+    }
   }
 
   public boolean hasPermisssion() {
