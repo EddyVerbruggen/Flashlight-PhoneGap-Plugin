@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
         id="cordova-plugin-flashlight"
-        version="3.0.0">
+        version="3.1.0">
 
   <name>Flashlight</name>
 
@@ -55,6 +55,8 @@
     </config-file>
 
     <source-file src="src/android/nl/xservices/plugins/Flashlight.java" target-dir="src/nl/xservices/plugins"/>
+
+    <dependency id="cordova-plugin-compat" version="^1.0.0" />
   </platform>
 
   <!-- wp8 -->

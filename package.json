@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-flashlight",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "This plugin allows you switch the Flashlight / Torch of your device on or off.",
   "cordova": {
     "id": "cordova-plugin-flashlight",
