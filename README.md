@@ -38,7 +38,7 @@ $ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugi
 Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
 Just add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
-<gap:plugin name="cordova-plugin-flashlight" source="npm />
+<gap:plugin name="cordova-plugin-flashlight" source="npm" />
 ```
 
 ## 3. Usage
@@ -63,6 +63,11 @@ window.plugins.flashlight.available(function(isAvailable) {
 As an alternative to `switchOn` and `switchOff`, you can use the `toggle` function
 ```javascript
 window.plugins.flashlight.toggle(); // success/error callbacks may be passed
+```
+
+To know if the flashlight is on or off you can call `isSwitchedOn` 
+```javascript
+window.plugins.flashlight.isSwitchedOn(); // returns true/false
 ```
 
 A hint for `Android developers`: you'll want to make sure the torch is switched off when the app is exited via the backbutton.

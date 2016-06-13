@@ -8,7 +8,7 @@ Flashlight.prototype = {
   available: function (callback) {
     cordova.exec(function (avail) {
       callback(avail ? true : false);
-    }, null, "Flashlight", "available", []);
+    }, function() { callback(false); }, "Flashlight", "available", []);
   },
 
   switchOn: function (successCallback, errorCallback) {
@@ -27,6 +27,10 @@ Flashlight.prototype = {
     } else {
       this.switchOn(successCallback, errorCallback);
     }
+  },
+
+  isSwitchedOn: function () {
+    return this._isSwitchedOn;
   }
 };
 
