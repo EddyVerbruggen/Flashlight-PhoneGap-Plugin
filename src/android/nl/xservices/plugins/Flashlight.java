@@ -31,6 +31,8 @@ public class Flashlight extends CordovaPlugin {
 
   private static Boolean capable;
   private boolean releasing;
+
+  @SuppressWarnings("deprecation")
   private Camera mCamera;
 
   private static final int PERMISSION_CALLBACK_CAMERA = 33;
@@ -40,10 +42,10 @@ public class Flashlight extends CordovaPlugin {
   @Override
   public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
     Log.d("Flashlight", "Plugin Called: " + action);
+    this.callbackContext = callbackContext;
 
     try {
       if (action.equals(ACTION_SWITCH_ON)) {
-        this.callbackContext = callbackContext;
 
         cordova.getThreadPool().execute(new Runnable() {
           public void run() {
@@ -61,7 +63,7 @@ public class Flashlight extends CordovaPlugin {
             if (!hasPermisssion()) {
               requestPermissions(PERMISSION_CALLBACK_CAMERA);
             } else {
-              toggleTorch(true, callbackContext);
+              toggleTorch(true);
             }
           }
         });
@@ -70,7 +72,7 @@ public class Flashlight extends CordovaPlugin {
       } else if (action.equals(ACTION_SWITCH_OFF)) {
         cordova.getThreadPool().execute(new Runnable() {
           public void run() {
-            toggleTorch(false, callbackContext);
+            toggleTorch(false);
             releaseCamera();
           }
         });
@@ -102,10 +104,10 @@ public class Flashlight extends CordovaPlugin {
     return capable;
   }
 
-  private void toggleTorch(boolean switchOn, CallbackContext callbackContext) {
+  private void toggleTorch(boolean switchOn) {
     try {
       if (isCapable()) {
-        doToggleTorch(switchOn, callbackContext);
+        doToggleTorch(switchOn);
       } else {
         callbackContext.error("Device is not capable of using the flashlight. Please test with flashlight.available()");
       }
@@ -114,9 +116,9 @@ public class Flashlight extends CordovaPlugin {
     }
   }
   @SuppressWarnings("deprecation")
-  private void doToggleTorch(boolean switchOn, CallbackContext callbackContext) throws IOException, CameraAccessException {
+  private void doToggleTorch(boolean switchOn) throws IOException, CameraAccessException {
     if (Build.VERSION.SDK_INT >= 23) { // Android M has such an easy API! <3
-      doToggleTorchSdk23(switchOn, callbackContext);
+      doToggleTorchSdk23(switchOn);
 
     } else {
       if (mCamera == null) {
@@ -135,7 +137,7 @@ public class Flashlight extends CordovaPlugin {
   }
 
   @TargetApi(21)
-  private void doToggleTorchSdk23(boolean switchOn, CallbackContext callbackContext) throws IOException, CameraAccessException {
+  private void doToggleTorchSdk23(boolean switchOn) throws IOException, CameraAccessException {
     final CameraManager cameraManager = (CameraManager) cordova.getActivity().getSystemService(Context.CAMERA_SERVICE);
     for (final String id : cameraManager.getCameraIdList()) {
       // Turn on the flash if the camera has one (usually the one at index 0 has one)
@@ -152,10 +154,12 @@ public class Flashlight extends CordovaPlugin {
     // since folks may not use SDK 23 to compile we'll use reflection as a temporary solution
     try {
       final Method setTorchMode = cameraManager.getClass().getMethod("setTorchMode", String.class, boolean.class);
-      setTorchMode.invoke(id, switchOn);
+      setTorchMode.invoke(cameraManager, id, switchOn);
       callbackContext.success();
     } catch (ReflectiveOperationException e) {
       callbackContext.error(e.getMessage());
+    } catch (Throwable t) {
+      callbackContext.error(t.getMessage());
     }
   }
 
@@ -185,7 +189,7 @@ public class Flashlight extends CordovaPlugin {
 
     switch (requestCode) {
       case PERMISSION_CALLBACK_CAMERA:
-        toggleTorch(true, callbackContext);
+        toggleTorch(true);
         break;
     }
   }
