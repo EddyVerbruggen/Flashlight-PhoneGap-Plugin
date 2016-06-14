@@ -14,12 +14,13 @@ by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8
 
 This plugin allows you to switch the flashlight / torch of the device on and off.
 
-* Works on Android 2.x and newer.
-* Works on iOS 5.0+, maybe even lower.
-* Works on Windows Phone 8 (since v2.0.0).
-* Depends on capabilities of the device, so you can test it with an API call.
-* Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman).
-* Pending review at [PhoneGap Build](https://build.phonegap.com/plugins).
+* Works on iOS 5+
+* Works on Android 2+
+* Android 6+ runtime permissions are handled automatically
+* Works on WP8
+* Depends on capabilities of the device, so you can test it with an API call
+* Compatible with [Cordova Plugman](https://github.com/apache/cordova-plugman)
+* Pending review at [PhoneGap Build](https://build.phonegap.com/plugins)
 
 ## 2. Installation
 
