@@ -14,7 +14,19 @@
     if ([self deviceHasFlashlight]) {
         AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
         [device lockForConfiguration:nil];
-        [device setTorchMode:AVCaptureTorchModeOn];
+        NSError *error = nil;
+        float value = AVCaptureMaxAvailableTorchLevel;
+        if (command.arguments.count > 0) {
+            NSDictionary* options = command.arguments[0];
+            NSNumber *intensity = options[@"intensity"];
+            if (intensity != nil) {
+                float requestedValue = [intensity floatValue];
+                if (requestedValue > 0.0 && requestedValue < 1.0) {
+                    value = requestedValue;
+                }
+            }
+        }
+        [device setTorchModeOnWithLevel:value error:&error];
         [device setFlashMode:AVCaptureFlashModeOn];
         [device unlockForConfiguration];
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];

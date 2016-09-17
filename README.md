@@ -43,12 +43,21 @@ Just add the following xml to your `config.xml` to always use the latest version
 ```
 
 ## 3. Usage
+
+Since version 3.2.0 of this plugin you can pass in an `intensity` property
+which needs to be anywhere between 0.0 and 1.0. __Only__ on iOS this will affect the
+brightness of the torch.
+
 ```javascript
 window.plugins.flashlight.available(function(isAvailable) {
   if (isAvailable) {
 
     // switch on
-    window.plugins.flashlight.switchOn(); // success/error callbacks may be passed
+    window.plugins.flashlight.switchOn(
+      function() {}, // optional success callback
+      function() {}, // optional error callback
+      {intensity: 0.3} // optional as well
+    );
 
     // switch off after 3 seconds
     setTimeout(function() {
@@ -63,7 +72,11 @@ window.plugins.flashlight.available(function(isAvailable) {
 
 As an alternative to `switchOn` and `switchOff`, you can use the `toggle` function
 ```javascript
-window.plugins.flashlight.toggle(); // success/error callbacks may be passed
+window.plugins.flashlight.toggle(
+  function() {}, // optional success callback
+  function() {}, // optional error callback
+  {intensity: 0.3} // optional as well, used on iOS when switching on
+);
 ```
 
 To know if the flashlight is on or off you can call `isSwitchedOn` 
