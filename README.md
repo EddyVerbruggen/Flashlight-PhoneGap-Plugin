@@ -1,3 +1,7 @@
+[![NPM version](https://img.shields.io/npm/v/community-cordova-plugin-flashlight)](https://www.npmjs.com/package/community-cordova-plugin-flashlight)
+[![Downloads](https://img.shields.io/npm/dm/community-cordova-plugin-flashlight)](https://www.npmjs.com/package/community-cordova-plugin-flashlight)
+
+
 #### This is a fork of the original plugin cordova-plugin-flashlight
 
 # PhoneGap Flashlight / Torch plugin
