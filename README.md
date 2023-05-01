@@ -1,3 +1,9 @@
+[![NPM version](https://img.shields.io/npm/v/community-cordova-plugin-flashlight)](https://www.npmjs.com/package/community-cordova-plugin-flashlight)
+[![Downloads](https://img.shields.io/npm/dm/community-cordova-plugin-flashlight)](https://www.npmjs.com/package/community-cordova-plugin-flashlight)
+
+
+#### This is a fork of the original plugin cordova-plugin-flashlight
+
 # PhoneGap Flashlight / Torch plugin
 
 by [Eddy Verbruggen](http://www.x-services.nl) for iOS, Android and WP8
@@ -26,7 +32,7 @@ This plugin allows you to switch the flashlight / torch of the device on and off
 
 Latest stable version from npm:
 ```
-$ cordova plugin add cordova-plugin-flashlight
+$ cordova plugin add community-cordova-plugin-flashlight
 ```
 
 Bleeding edge version from Github:
@@ -39,7 +45,7 @@ $ cordova plugin add https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugi
 Flashlight works with PhoneGap build too! Compatible with PhoneGap 3.0.0 and up.
 Just add the following xml to your `config.xml` to always use the latest version of this plugin:
 ```xml
-<gap:plugin name="cordova-plugin-flashlight" source="npm" />
+<gap:plugin name="community-cordova-plugin-flashlight" source="npm" />
 ```
 
 ## 3. Usage

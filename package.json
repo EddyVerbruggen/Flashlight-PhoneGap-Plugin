@@ -1,19 +1,18 @@
 {
-  "name": "cordova-plugin-flashlight",
-  "version": "3.2.0",
+  "name": "community-cordova-plugin-flashlight",
+  "version": "3.3.2",
   "description": "This plugin allows you switch the Flashlight / Torch of your device on or off.",
   "cordova": {
-    "id": "cordova-plugin-flashlight",
+    "id": "community-cordova-plugin-flashlight",
     "platforms": [
       "ios",
       "android",
       "wp8"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin.git"
-  },
+  "repository": "EYALIN/community-cordova-plugin-flashlight/tree/master",
+  "homepage": "https://github.com/EYALIN/community-cordova-plugin-flashlight/tree/master",
+  "funding": "https://github.com/sponsors/EYALIN",
   "keywords": [
     "Torch",
     "Flashlight",
@@ -30,10 +29,9 @@
       "version": ">=3.0.0"
     }
   ],
-  "author": "Eddy Verbruggen <eddyverbruggen@gmail.com> (https://github.com/EddyVerbruggen)",
+  "author": "<eddyverbruggen@gmail.com> (https://github.com/EddyVerbruggen)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin/issues"
-  },
-  "homepage": "https://github.com/EddyVerbruggen/Flashlight-PhoneGap-Plugin#readme"
+    "url": "https://github.com/EYALIN/community-cordova-plugin-flashlight/issues"
+  }
 }
